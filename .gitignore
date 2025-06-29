@@ -1,0 +1,30 @@
+# Docker
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Laravel (in src directory)
+src/vendor/
+src/node_modules/
+src/storage/logs/
+src/storage/framework/cache/
+src/storage/framework/sessions/
+src/storage/framework/views/
+src/bootstrap/cache/
+src/.env.backup
+src/.phpunit.result.cache
+src/Homestead.json
+src/Homestead.yaml
+src/npm-debug.log
+src/yarn-error.log
