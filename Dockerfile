@@ -1,4 +1,4 @@
-FROM php:8.4-fpm
+FROM dunglas/frankenphp
 
 RUN apt-get update && apt-get install -y \
     libpng-dev \
@@ -17,9 +17,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /src
 
-RUN chown -R www-data:www-data /src \
-    && chmod -R 755 /src
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
+ENV SERVER_NAME=":8000"
