@@ -17,4 +17,11 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-$app->handleRequest(Request::capture());
+// FrankenPHP worker mode support
+if (function_exists('frankenphp_handle_request')) {
+    frankenphp_handle_request(function () use ($app) {
+        $app->handleRequest(Request::capture());
+    });
+} else {
+    $app->handleRequest(Request::capture());
+}
