@@ -8,6 +8,15 @@ services:
     depends_on:
       - postgres
 
+  node:
+    image: node:22-bullseye
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src:/src
+    command: ["sleep", "infinity"]
+    working_dir: /src
+
   postgres:
     image: postgres:15
     environment:

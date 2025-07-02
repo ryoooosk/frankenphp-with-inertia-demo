@@ -7,7 +7,6 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
 ### 必要なツール
 
 - Docker Desktop
-- Node.js 18+ (フロントエンド開発用)
 
 ### セットアップ手順
 
@@ -37,9 +36,8 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
    ```
 
    ```bash
-   # Node.js依存関係のインストール（ローカル）
-   cd src
-   npm install
+   # Node.js依存関係のインストール
+   docker compose exec node npm install
    ```
 
 4. **アクセス確認**
@@ -62,10 +60,9 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
 ### 開発用コマンド
 
 ```bash
-# フロントエンド開発サーバー起動（ローカル）
-cd src
-npm run dev
+# フロントエンド開発サーバー起動
+docker compose exec node npm run dev
 
 # テスト実行
-docker-compose exec app php artisan test
+docker compose exec app php artisan test
 ```
