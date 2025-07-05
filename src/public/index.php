@@ -19,7 +19,7 @@ $app = require_once __DIR__ . '/../bootstrap/app.php';
 
 // FrankenPHP worker mode support
 if (function_exists('frankenphp_handle_request')) {
-    frankenphp_handle_request(function () use ($app) {
+    frankenphp_handle_request(function () use ($app): void {
         $app->handleRequest(Request::capture());
     });
 } else {
