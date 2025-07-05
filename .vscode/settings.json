@@ -16,6 +16,12 @@
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer"
+  },
+  "php-cs-fixer.executablePath": "/Users/ryosuke/inertia-demo/src/vendor/bin/php-cs-fixer",
+  "php-cs-fixer.config": "/Users/ryosuke/inertia-demo/src/.php-cs-fixer.php",
+  "php-cs-fixer.allowRisky": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "quickfix.biome": "explicit"
