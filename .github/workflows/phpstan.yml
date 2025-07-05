@@ -1,0 +1,44 @@
+name: PHPStan
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "src/**/*.php"
+      - "src/phpstan.neon"
+      - "src/composer.json"
+      - "src/composer.lock"
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # Laravelのパッケージ検出とオートローダー最適化のために必要
+      - name: Create cache directory
+        run: mkdir -p bootstrap/cache
+        working-directory: ./src
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        working-directory: ./src
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse --error-format=github
+        working-directory: ./src
