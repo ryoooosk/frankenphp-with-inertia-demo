@@ -1,0 +1,32 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    # 静的解析の厳密度レベル（0-9）
+    level: 6
+
+    # 解析対象のディレクトリ
+    paths:
+        - app      # アプリケーションコード
+        - database # データベース関連
+        - routes   # ルート定義
+
+    # 解析から除外するファイル（存在しない場合は(?)を付けてオプション扱い）
+    excludePaths:
+        - app/Console/Kernel.php (?)
+        - app/Exceptions/Handler.php (?)
+        - app/Http/Kernel.php (?)
+        - app/Http/Middleware/TrustHosts.php (?)
+        - app/Http/Middleware/TrustProxies.php (?)
+
+    # 無視するエラーパターン（正規表現）
+    ignoreErrors:
+        # EloquentのBuilderクラスの動的メソッドエラーを無視
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder::#'
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::#'
+
+    # 未マッチの無視設定について報告しない
+    reportUnmatchedIgnoredErrors: false
