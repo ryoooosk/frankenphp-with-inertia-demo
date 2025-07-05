@@ -22,5 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+.php-cs-fixer.cache
 
 frankenphp-stubs.php
