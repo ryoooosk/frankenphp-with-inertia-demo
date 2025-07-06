@@ -1,3 +1,13 @@
 {
-  "recommendations": ["biomejs.biome", "junstyle.php-cs-fixer"]
+  "recommendations": [
+    "xdebug.php-pack",
+    "onecentlin.laravel5-snippets",
+    "bmewburn.vscode-intelephense-client",
+    "junstyle.php-cs-fixer",
+    "xabikos.javascriptsnippets",
+    "dsznajder.es7-react-js-snippets",
+    "biomejs.biome",
+    "bradlc.vscode-tailwindcss",
+    "github.vscode-github-actions"
+  ]
 }
