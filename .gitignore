@@ -17,10 +17,6 @@ npm-debug.log*
 # Laravel (in src directory)
 src/vendor/
 src/node_modules/
-src/storage/logs/
-src/storage/framework/cache/
-src/storage/framework/sessions/
-src/storage/framework/views/
 src/.env.backup
 src/.phpunit.result.cache
 src/Homestead.json
