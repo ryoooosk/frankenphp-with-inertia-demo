@@ -7,16 +7,11 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     target-branch: "main"
-    reviewers:
-      - "ryosuke"
-    assignees:
-      - "ryosuke"
     commit-message:
       prefix: "deps"
       include: "scope"
     labels:
-      - "dependencies"
-      - "php"
+      - "dependabot"
 
   # JavaScript/npm dependencies
   - package-ecosystem: "npm"
@@ -25,16 +20,11 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     target-branch: "main"
-    reviewers:
-      - "ryosuke"
-    assignees:
-      - "ryosuke"
     commit-message:
       prefix: "deps"
       include: "scope"
     labels:
-      - "dependencies"
-      - "javascript"
+      - "dependabot"
 
   # Docker dependencies
   - package-ecosystem: "docker"
@@ -43,16 +33,11 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     target-branch: "main"
-    reviewers:
-      - "ryosuke"
-    assignees:
-      - "ryosuke"
     commit-message:
       prefix: "deps"
       include: "scope"
     labels:
-      - "dependencies"
-      - "docker"
+      - "dependabot"
 
   # GitHub Actions dependencies
   - package-ecosystem: "github-actions"
@@ -61,13 +46,8 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     target-branch: "main"
-    reviewers:
-      - "ryosuke"
-    assignees:
-      - "ryosuke"
     commit-message:
       prefix: "deps"
       include: "scope"
     labels:
-      - "dependencies"
-      - "github-actions"
+      - "dependabot"
