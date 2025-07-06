@@ -19,9 +19,8 @@
   "[php]": {
     "editor.defaultFormatter": "junstyle.php-cs-fixer"
   },
-  "php-cs-fixer.executablePath": "/Users/ryosuke/inertia-demo/src/vendor/bin/php-cs-fixer",
-  "php-cs-fixer.config": "/Users/ryosuke/inertia-demo/src/.php-cs-fixer.php",
-  "php-cs-fixer.allowRisky": true,
+  "php-cs-fixer.executablePath": "${workspaceFolder}/src/vendor/bin/php-cs-fixer",
+  "php-cs-fixer.config": "${workspaceFolder}/src/.php-cs-fixer.php",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "quickfix.biome": "explicit"
