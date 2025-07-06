@@ -13,8 +13,8 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
 1. **リポジトリのクローン**
 
    ```bash
-   git clone <repository-url>
-   cd inertia-demo
+   git clone <repository-url> <your-directory-name>
+   cd <your-directory-name>
    ```
 
 2. **環境設定ファイルの作成**
@@ -35,22 +35,33 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
    cp src/.env.example src/.env
    ```
 
-3. **Docker 環境の起動**
+3. **事前準備（重要）**
+
+   FrankenPHPのワーカーモードを使用するため、初回のコンテナ起動前は必ずComposer依存関係をインストールしてください：
 
    ```bash
-   docker-compose up -d --build
+   # src/vendorディレクトリが存在しない場合のみ実行
+   docker run --rm -v $(pwd)/src:/app composer:latest instal
    ```
 
-4. **アプリケーションの初期化**
+   > **なぜ事前に必要か？**
+   >
+   > FrankenPHPのワーカーモードは、アプリケーション全体（vendor内のライブラリを含む）を起動時に一度だけメモリにロードし、その状態を保持したまま複数のリクエストを処理します。起動時にvendorディレクトリが存在しないと、アプリケーションをメモリ上に構築すること自体ができず、起動に失敗します。
+
+4. **Docker 環境の起動**
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+5. **アプリケーションの初期化**
 
    コンテナが起動後に実行
 
    ```bash
-   # Composer依存関係のインストール
-   docker-compose exec app composer install
    # Laravel設定
-   docker-compose exec app php artisan key:generate
-   docker-compose exec app php artisan migrate
+   docker compose exec app php artisan key:generate
+   docker compose exec app php artisan migrate
    ```
 
    ```bash
@@ -61,7 +72,7 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
    docker compose exec node npm run dev
    ```
 
-5. **アクセス確認**
+6. **アクセス確認**
 
    ブラウザで <http://localhost:8000> にアクセス
 
@@ -126,8 +137,7 @@ docker compose exec app composer test
 - **更新間隔**: 週次（毎週月曜日）
 - **同時PR数**: 最大10件
 - **コミットメッセージ**: `deps:` プレフィックス付き
-- **ラベル**: 自動的に `dependencies` と対応する技術ラベルが付与
-- **レビュアー**: 自動アサイン
+- **ラベル**: 自動的に `dependabot` と対応する技術ラベルが付与
 
 ### 設定ファイル
 
