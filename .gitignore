@@ -21,7 +21,6 @@ src/storage/logs/
 src/storage/framework/cache/
 src/storage/framework/sessions/
 src/storage/framework/views/
-src/bootstrap/cache/
 src/.env.backup
 src/.phpunit.result.cache
 src/Homestead.json
