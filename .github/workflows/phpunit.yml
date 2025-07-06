@@ -6,7 +6,7 @@ on:
     paths:
       - "src/**/*.php"
       - "src/phpunit.xml"
-      - "src/composer.json"
+      - "src/package-lock.json"
       - "src/composer.lock"
       - ".github/workflows/phpunit.yml"
 
