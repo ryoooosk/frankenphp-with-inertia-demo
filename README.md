@@ -91,3 +91,26 @@ docker compose exec app composer test
 ### PHPUnit テスト
 
 - **トリガー**: `src/**/*.php`、`src/phpunit.xml`、`src/composer.json`の変更
+
+## 依存関係管理 (Dependabot)
+
+このプロジェクトでは [Dependabot](https://docs.github.com/en/code-security/dependabot) を使用して依存関係の自動更新を行っています。
+
+### 監視対象
+
+- **PHP/Composer** (`/src/composer.json`): Laravel、Inertia.js、その他PHPライブラリ
+- **JavaScript/npm** (`/src/package.json`): React、Vite、TypeScript、その他フロントエンドライブラリ
+- **Docker** (`/Dockerfile`): Dockerベースイメージ
+- **GitHub Actions** (`/.github/workflows/`): ワークフロー内のアクション
+
+### 自動更新の詳細
+
+- **更新間隔**: 週次（毎週月曜日）
+- **同時PR数**: 最大10件
+- **コミットメッセージ**: `deps:` プレフィックス付き
+- **ラベル**: 自動的に `dependencies` と対応する技術ラベルが付与
+- **レビュアー**: 自動アサイン
+
+### 設定ファイル
+
+`.github/dependabot.yml` で設定を管理。詳細な設定変更が必要な場合は、このファイルを編集してください。
