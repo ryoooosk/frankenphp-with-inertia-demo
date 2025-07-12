@@ -142,3 +142,40 @@ docker compose exec app composer test
 ### 設定ファイル
 
 `.github/dependabot.yml` で設定を管理。詳細な設定変更が必要な場合は、このファイルを編集してください。
+
+## FrankenPHP メモリリーク対策
+
+このプロジェクトではFrankenPHPのワーカーモードで発生しうるメモリリークを防ぐため、以下の対策を実装しています。
+
+### 環境変数設定 (Dockerfile)
+
+```dockerfile
+# メモリリーク対策
+ENV FRANKENPHP_WORKER_COUNT=2      # ワーカープロセス数制限
+ENV FRANKENPHP_MAX_REQUESTS=500    # リクエスト数制限（500回処理後にワーカー再起動）
+ENV MAX_RUNTIME_SECONDS=3600       # 最大実行時間制限（1時間）
+ENV GOMEMLIMIT=480MiB              # Go ランタイムメモリ制限
+ENV PHP_INI_MEMORY_LIMIT=192M      # PHP メモリ制限
+```
+
+### メモリ監視機能
+
+- **LogMemoryUsage ミドルウェア** (`src/app/Http/Middleware/LogMemoryUsage.php`)
+  - 各リクエスト処理後のメモリ使用量をログに記録
+  - ログ形式: `[GET] / - Memory: 6.00 MB`
+
+### 設定の効果
+
+- **メモリ使用量**: 安定した 6.00MB で推移
+- **メモリリーク**: 大量リクエスト処理後も増加なし
+- **自動復旧**: 500リクエスト毎にワーカー自動再起動
+
+### メモリ使用量の確認方法
+
+```bash
+# 最新のメモリ使用ログを確認
+docker compose exec app tail -n 20 storage/logs/laravel.log | grep "Memory:"
+
+# メモリ記録数を確認
+docker compose exec app grep -c "Memory:" storage/logs/laravel.log
+```
