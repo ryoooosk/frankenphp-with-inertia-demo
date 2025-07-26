@@ -1,0 +1,26 @@
+name: Add Reviewer to Dependabot PRs
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  add-reviewer:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add Reviewer
+        run: gh pr edit $PR_NUMBER --add-reviewer $REVIEWER
+    env:
+      PR_NUMBER: ${{ github.event.number }}
+      # gh cli require GH_TOKEN variable
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REVIEWER: ${{ github.repository_owner }}
+    
