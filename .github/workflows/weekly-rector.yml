@@ -2,12 +2,9 @@
 name: Weekly Rector
 
 on:
+  schedule:
+    - cron: "0 0 * * 1"
   workflow_dispatch:
-    inputs:
-      target_branch:
-        description: '実行するブランチ'
-        required: false
-        default: 'main'
 
 jobs:
   rector:
@@ -16,9 +13,16 @@ jobs:
     env:
       has_changes: 'false'
     steps:
+      # schedule 実行時は main ブランチを checkout
       - uses: actions/checkout@v4
+        if: github.event_name == 'schedule'
         with:
-          ref: ${{ github.event.inputs.target_branch || 'main' }}
+          ref: main
+      # 手動実行時は選択されたブランチを checkout
+      - uses: actions/checkout@v4
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
