@@ -15,6 +15,10 @@ return RectorConfig::configure()
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
+    // bootstrap/cache ディレクトリは適用外にする
+    ->withSkip([
+        __DIR__ . '/bootstrap/cache',
+    ])
     // プロジェクトのPHPバージョンで推奨しているコードに強制
     ->withPhpSets()
     ->withPreparedSets(earlyReturn:true, privatization:true, typeDeclarations:true)
