@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Add Reviewer
-        run: gh pr edit $PR_NUMBER --add-reviewer $REVIEWER
+        run: gh pr edit "$PR_NUMBER" --add-reviewer "$REVIEWER"
     env:
       PR_NUMBER: ${{ github.event.number }}
       # gh cli require GH_TOKEN variable
