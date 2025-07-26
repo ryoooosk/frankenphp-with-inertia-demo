@@ -8,6 +8,7 @@ on:
       - "src/phpstan.neon"
       - "src/composer.json"
       - "src/composer.lock"
+  workflow_dispatch:
 
 jobs:
   phpstan:
