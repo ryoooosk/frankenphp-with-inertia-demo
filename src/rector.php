@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 
 return RectorConfig::configure()
@@ -22,6 +23,9 @@ return RectorConfig::configure()
     // Laravelのバージョンに合わせたコードに強制
     ->withSets([
         LaravelLevelSetList::UP_TO_LARAVEL_120,
+    ])
+    ->withRules([
+        DeclareStrictTypesRector::class,
     ])
     // 不使用のインポートを削除
     ->withImportNames(removeUnusedImports: true);
