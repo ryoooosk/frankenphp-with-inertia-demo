@@ -18,12 +18,12 @@ jobs:
       has_changes: 'false'
     steps:
       # schedule 実行時は main ブランチを checkout
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: github.event_name == 'schedule'
         with:
           ref: main
       # 手動実行時は選択されたブランチを checkout
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: github.event_name == 'workflow_dispatch'
         with:
           ref: ${{ github.ref_name }}
