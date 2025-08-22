@@ -2,7 +2,7 @@ name: auto merge dependabot pull requests
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 jobs:
   merge:
