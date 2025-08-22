@@ -21,5 +21,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr review "${{ github.event.number }}" --approve
-          # gh pr merge "${{ github.event.number }}" --auto --merge
+          gh pr merge "${{ github.event.number }}" --auto --merge
     
