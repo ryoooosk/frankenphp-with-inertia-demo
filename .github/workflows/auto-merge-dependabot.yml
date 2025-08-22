@@ -1,0 +1,25 @@
+name: auto merge dependabot pull requests
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  merge:
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - id: meta
+        uses: dependabot/fetch-metadata@v2 #条件分岐でパッチバージョンかチェック
+      - name: Approve and auto-merge patch PR
+        if: ${{ steps.meta.outputs.update-type == 'version-update:semver-patch' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review "${{ github.event.number }}" --approve
+          # gh pr merge "${{ github.event.number }}" --auto --merge
+    
