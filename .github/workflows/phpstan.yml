@@ -6,8 +6,8 @@ on:
     paths:
       - "src/**/*.php"
       - "src/phpstan.neon"
-      - "src/composer.json"
       - "src/composer.lock"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 jobs:

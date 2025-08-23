@@ -8,7 +8,7 @@ on:
       - "src/phpunit.xml"
       - "src/package-lock.json"
       - "src/composer.lock"
-      - ".github/workflows/phpunit.yml"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 jobs:
