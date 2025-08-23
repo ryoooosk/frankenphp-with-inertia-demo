@@ -20,6 +20,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # リポジトリ設定のAllow GitHub Actions to create and approve pull requestsを有効にしておく必要あり
           gh pr review "${{ github.event.number }}" --approve
+          # autoフラグはリポジトリ設定のAllow auto-mergeを有効にしておく必要あり
           gh pr merge "${{ github.event.number }}" --auto --merge
     
