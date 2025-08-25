@@ -12,7 +12,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: meta
         uses: dependabot/fetch-metadata@v2 #条件分岐でパッチバージョンかチェック
       - name: Approve and auto-merge patch PR
