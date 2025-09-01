@@ -7,7 +7,10 @@ on:
       - "src/**/*.php"
       - "src/phpstan.neon"
       - "src/composer.lock"
-      - ".github/workflows/**"
+      - "src/composer.json"
+      - "src/package-lock.json"
+      - "src/package.json"
+      - ".github/workflows/phpstan.yml"
   workflow_dispatch:
 
 jobs:
