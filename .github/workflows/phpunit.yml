@@ -7,8 +7,10 @@ on:
       - "src/**/*.php"
       - "src/phpunit.xml"
       - "src/package-lock.json"
+      - "src/package.json"
       - "src/composer.lock"
-      - ".github/workflows/**"
+      - "src/composer.json"
+      - ".github/workflows/phpunit.yml"
   workflow_dispatch:
 
 jobs:
