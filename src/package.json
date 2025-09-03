@@ -5,7 +5,9 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "prepare": "cd .. && husky src/.husky"
+    "prepare": "cd .. && husky src/.husky",
+    "lint": "biome lint --write ./resources/js",
+    "format": "biome format ./resources"
   },
   "dependencies": {
     "@inertiajs/react": "^2.1.2",
