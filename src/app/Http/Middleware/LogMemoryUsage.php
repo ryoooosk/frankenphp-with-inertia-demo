@@ -20,13 +20,8 @@ class LogMemoryUsage
     {
         $response = $next($request);
 
-        $memoryUsage = memory_get_usage(true) / 1024 / 1024; // MB単位
-        Log::info(sprintf(
-            '[%s] %s - Memory: %.2f MB',
-            $request->method(),
-            $request->path(),
-            $memoryUsage
-        ));
+        $memoryUsage = (memory_get_usage(true) / 1024) / 1024; // MB単位
+        Log::info(sprintf('[%s] %s - Memory: %.2f MB', $request->method(), $request->path(), $memoryUsage));
 
         return $response;
     }
