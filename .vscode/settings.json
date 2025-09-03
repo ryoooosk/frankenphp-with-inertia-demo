@@ -29,5 +29,6 @@
     "source.fixAll": "explicit",
     "quickfix.biome": "explicit"
   },
+  // Biomeのパスをプロジェクト内のものに設定（システムにBiomeがインストールされていてPATHが通っていれば不要）
   "biome.lsp.bin": "./src/node_modules/.bin/biome"
 }
