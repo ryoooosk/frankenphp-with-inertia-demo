@@ -93,6 +93,7 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
   - [Rector](https://getrector.com/) - PHPコードリファクタリング
   - [mago](https://github.com/carthage-software/mago) - コードスタイル自動修正
   - [Biome](https://biomejs.dev/) - JavaScript/TypeScript リンター・フォーマッター
+  - [Husky](https://typicode.github.io/husky/) + [lint-staged](https://github.com/lint-staged/lint-staged) - Git フック管理・pre-commit時の自動品質チェック
 
 ### 開発用コマンド
 
@@ -108,6 +109,21 @@ docker compose exec app vendor/bin/mago fmt  # コードスタイル自動修正
 # テスト
 docker compose exec app composer test
 ```
+
+### Git フック設定 (Husky + lint-staged)
+
+JavaScript/TypeScriptファイル（`*.{js,ts,jsx,tsx,json}`）に対してBiomeリンターが自動実行されます。
+
+```bash
+docker compose exec node npm run prepare
+```
+
+※huskyは.gitと同階層にいないと動作しない。このプロジェクトはsrcディレクトリにpackage.jsonがあるため、`npm run prepare`コマンド実行時にsrcディレクトリを指定しています。
+
+**設定ファイル**:
+
+- `src/.lintstagedrc` - lint-staged設定（対象ファイルとコマンド定義）
+- `src/package.json` - Husky準備スクリプト設定
 
 ### エディタ設定
 
