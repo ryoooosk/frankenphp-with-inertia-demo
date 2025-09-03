@@ -16,11 +16,15 @@
   "[json]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "customLocalFormatters.formatters": [
+    {
+      "command": "docker compose exec app vendor/bin/mago fmt --stdin-input",
+      "languages": ["php"]
+    }
+  ],
   "[php]": {
-    "editor.defaultFormatter": "junstyle.php-cs-fixer"
+    "editor.defaultFormatter": "jkillian.custom-local-formatters",
   },
-  "php-cs-fixer.executablePath": "${workspaceFolder}/src/vendor/bin/php-cs-fixer",
-  "php-cs-fixer.config": "${workspaceFolder}/src/.php-cs-fixer.php",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "quickfix.biome": "explicit"

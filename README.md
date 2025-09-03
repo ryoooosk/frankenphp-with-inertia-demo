@@ -91,7 +91,7 @@ Laravel + React + Inertia.js + FrankenPHP のサンプルアプリケーショ�
 - **コード品質ツール**:
   - [PHPStan](https://phpstan.org/) - PHP静的解析
   - [Rector](https://getrector.com/) - PHPコードリファクタリング
-  - [PHP CS Fixer](https://cs.symfony.com/) - コードスタイル自動修正
+  - [mago](https://github.com/carthage-software/mago) - コードスタイル自動修正
   - [Biome](https://biomejs.dev/) - JavaScript/TypeScript リンター・フォーマッター
 
 ### 開発用コマンド
@@ -103,11 +103,19 @@ docker compose exec app php artisan test
 # PHPコード品質チェック
 docker compose exec app composer phpstan # 静的解析
 docker compose exec app vendor/bin/rector --dry-run  # リファクタリング候補確認
-docker compose exec app vendor/bin/php-cs-fixer fix  # コードスタイル確認
+docker compose exec app vendor/bin/mago fmt  # コードスタイル自動修正
 
 # テスト
 docker compose exec app composer test
 ```
+
+### エディタ設定
+
+.vscode/settings.json に以下を設定しています
+
+- js,tsやjson,tsxはBiomeでフォーマット
+- phpはmagoでフォーマット
+  - magoはコンテナ内のものを使うため、コンテナを立ち上げないと動作しません
 
 ## CI (GitHub Actions)
 
