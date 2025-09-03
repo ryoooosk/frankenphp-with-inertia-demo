@@ -1,0 +1,3 @@
+{
+  "*.{js,ts,jsx,tsx,json}": "npx @biomejs/biome lint --write"
+}
