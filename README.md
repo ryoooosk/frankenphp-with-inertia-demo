@@ -112,13 +112,18 @@ docker compose exec app composer test
 
 ### Git フック設定 (Husky + lint-staged)
 
-JavaScript/TypeScriptファイル（`*.{js,ts,jsx,tsx,json}`）に対してBiomeリンターが自動実行されます。
+コミット時に次のファイルに対して品質チェックを自動実行します。
+
+- **JavaScript/TypeScript**（`*.{js,ts,jsx,tsx,json}`）: Biomeリンターが自動実行
+- **PHP**（`*.php`）: magoリンターが自動実行（Dockerコンテナ必要）
 
 ```bash
 docker compose exec node npm run prepare
 ```
 
 ※huskyは.gitと同階層にいないと動作しない。このプロジェクトはsrcディレクトリにpackage.jsonがあるため、`npm run prepare`コマンド実行時にsrcディレクトリを指定しています。
+
+**重要**: PHPファイルをコミットする際は、Dockerの`app`コンテナ内のmagoを使用するため、事前にコンテナを起動しておく必要があります。
 
 **設定ファイル**:
 
