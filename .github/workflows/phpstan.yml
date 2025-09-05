@@ -14,7 +14,8 @@ on:
 jobs:
   phpstan:
     runs-on: ubuntu-latest
-
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -41,6 +42,22 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
         working-directory: ./src
 
+      - name: "Restore result cache"
+        uses: actions/cache/restore@v4
+        with:
+          path: src/vendor/phpstan/phpstan/tmp # phpstan.neonのtmpDirと合わせる
+          key: "phpstan-result-cache-${{ env.PR_NUMBER }}"
+          # 一致するキャッシュの内最新のものを使用する
+          restore-keys: |
+            phpstan-result-cache-
+
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse --error-format=github
         working-directory: ./src
+
+      - name: "Save result cache"
+        uses: actions/cache/save@v4
+        if: ${{ !cancelled() }}
+        with:
+          path: src/vendor/phpstan/phpstan/tmp # phpstan.neonのtmpDirと合わせる
+          key: "phpstan-result-cache-${{ env.PR_NUMBER }}"
