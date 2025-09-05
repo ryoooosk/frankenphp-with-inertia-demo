@@ -89,6 +89,16 @@ jobs:
         run: npm run build
         working-directory: ./src
 
+      - name: Cache PHPUnit result cache
+        uses: actions/cache@v4
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number || 'manual' }}
+        with:
+          path: ./src/.phpunit.result.cache
+          key: ${{ runner.os }}-phpunit-result-cache-${{ env.PR_NUMBER }}
+          restore-keys: |
+            ${{ runner.os }}-phpunit-result-cache-
+
       - name: Run PHPUnit
         run: composer run test
         working-directory: ./src
