@@ -5,6 +5,8 @@ includes:
     - vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
+    tmpDir: ./vendor/phpstan/phpstan/tmp
+
     # 静的解析の厳密度レベル（0-9）
     level: 6
 
