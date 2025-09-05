@@ -19,7 +19,7 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
     env:
-      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_NUMBER: ${{ github.event.pull_request.number || 'manual' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -61,7 +61,7 @@ jobs:
 
       - name: "Save result cache"
         uses: actions/cache/save@v4
-        if: ${{ !cancelled() }}
+        if: ${{ github.event_name == 'pull_request' && !cancelled() }}
         with:
           path: src/vendor/phpstan/phpstan/tmp # phpstan.neonのtmpDirと合わせる
           key: "phpstan-result-cache-${{ env.PR_NUMBER }}"
