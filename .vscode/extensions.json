@@ -8,6 +8,7 @@
     "dsznajder.es7-react-js-snippets",
     "biomejs.biome",
     "bradlc.vscode-tailwindcss",
-    "github.vscode-github-actions"
+    "github.vscode-github-actions",
+    "jkillian.custom-local-formatters"
   ]
 }
