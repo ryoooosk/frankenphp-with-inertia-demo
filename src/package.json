@@ -10,7 +10,7 @@
     "format": "biome format ./resources"
   },
   "dependencies": {
-    "@inertiajs/react": "^2.2.18",
+    "@inertiajs/react": "^2.2.19",
     "@vitejs/plugin-react": "^5.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.0"
