@@ -12,7 +12,7 @@
   "dependencies": {
     "@inertiajs/react": "^2.2.18",
     "@vitejs/plugin-react": "^5.1.1",
-    "react": "^19.1.0",
+    "react": "^19.2.1",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
