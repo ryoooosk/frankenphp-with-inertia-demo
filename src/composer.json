@@ -12,7 +12,7 @@
     "laravel/tinker": "^2.10.1"
   },
   "require-dev": {
-    "carthage-software/mago": "1.1.0",
+    "carthage-software/mago": "1.2.2",
     "driftingly/rector-laravel": "^2.0",
     "fakerphp/faker": "^1.23",
     "larastan/larastan": "^3.0",
