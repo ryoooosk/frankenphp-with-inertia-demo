@@ -1,0 +1,31 @@
+name: Client Build
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - "src/resources/**/*"
+      - ".github/workflows/client-build.yml"
+      # package-lockが変わった場合はphp-unit側のワークフロー
+      - "!src/package-lock.json"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install npm dependencies
+        run: npm ci
+        working-directory: ./src
+
+      - name: Build assets
+        run: npm run build
+        working-directory: ./src
