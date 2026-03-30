@@ -70,6 +70,10 @@ jobs:
         run: php artisan key:generate
         working-directory: ./src
 
+      - name: Generate Passport keys
+        run: php artisan passport:keys
+        working-directory: ./src
+
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
