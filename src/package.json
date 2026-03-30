@@ -10,7 +10,7 @@
 		"format": "biome format ./resources"
 	},
 	"dependencies": {
-		"@inertiajs/react": "^2.3.18",
+		"@inertiajs/react": "^3.0.0",
 		"@vitejs/plugin-react": "^6.0.1",
 		"react": "^19.2.1",
 		"react-dom": "^19.2.4"
@@ -21,7 +21,7 @@
 		"@types/node": "^25.5.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"axios": "^1.13.6",
+		"axios": "^1.14.0",
 		"concurrently": "^9.2.1",
 		"husky": "^9.1.7",
 		"laravel-vite-plugin": "^3.0.0",
