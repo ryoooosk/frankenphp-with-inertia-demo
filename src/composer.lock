@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cbeb64a794f41e761482e5a07e3dd9e3",
+    "content-hash": "5e0316f5143c7ca3e0761b0436cf5023",
     "packages": [
         {
             "name": "brick/math",
@@ -6098,16 +6098,16 @@
     "packages-dev": [
         {
             "name": "carthage-software/mago",
-            "version": "1.27.1",
+            "version": "1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/carthage-software/mago.git",
-                "reference": "f4c31bbcb871e6bcbb96323ce791e06288b39b2a"
+                "reference": "8aab53f6d004f9a6e85128c365d3d28737fdb272"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/carthage-software/mago/zipball/f4c31bbcb871e6bcbb96323ce791e06288b39b2a",
-                "reference": "f4c31bbcb871e6bcbb96323ce791e06288b39b2a",
+                "url": "https://api.github.com/repos/carthage-software/mago/zipball/8aab53f6d004f9a6e85128c365d3d28737fdb272",
+                "reference": "8aab53f6d004f9a6e85128c365d3d28737fdb272",
                 "shasum": ""
             },
             "require": {
@@ -6145,7 +6145,7 @@
             ],
             "support": {
                 "issues": "https://github.com/carthage-software/mago/issues",
-                "source": "https://github.com/carthage-software/mago/tree/1.27.1"
+                "source": "https://github.com/carthage-software/mago/tree/1.29.0"
             },
             "funding": [
                 {
@@ -6153,7 +6153,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-13T15:32:36+00:00"
+            "time": "2026-05-23T18:53:33+00:00"
         },
         {
             "name": "driftingly/rector-laravel",
