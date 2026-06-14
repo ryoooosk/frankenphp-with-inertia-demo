@@ -16,10 +16,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -52,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
                 'client' => [
                     'name' => $params['client']->name,
                 ],
-                'scopes' => array_map(static fn (\Laravel\Passport\Scope $scope) => [
+                'scopes' => array_map(static fn(\Laravel\Passport\Scope $scope) => [
                     'id' => $scope->id,
                     'description' => $scope->description,
                 ], $scopes),
