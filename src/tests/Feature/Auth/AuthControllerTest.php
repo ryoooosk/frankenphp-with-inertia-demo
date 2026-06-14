@@ -18,6 +18,7 @@ class AuthControllerTest extends TestCase
     #[Test]
     public function 正しい認証情報でログインしダッシュボードにリダイレクトされる(): void
     {
+        /** @var User $user */
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'password' => 'password',
@@ -51,8 +52,88 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
+    public function 誤った認証情報ではログインできずエラーが返る(): void
+    {
+        User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => 'password',
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => 'test@example.com',
+            'password' => 'wrong-password',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors('email');
+        $this->assertGuest();
+    }
+
+    #[Test]
+    public function ログインのバリデーションエラーが返る(): void
+    {
+        $response = $this->post('/login', [
+            'email' => '',
+            'password' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['email', 'password']);
+        $this->assertGuest();
+    }
+
+    #[Test]
+    public function 登録時に重複メールアドレスはエラーになる(): void
+    {
+        User::factory()->create(['email' => 'existing@example.com']);
+
+        $response = $this->post('/register', [
+            'name' => 'テスト',
+            'email' => 'existing@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+        $this->assertGuest();
+    }
+
+    #[Test]
+    public function 登録時にパスワード確認が一致しないとエラーになる(): void
+    {
+        $response = $this->post('/register', [
+            'name' => 'テスト',
+            'email' => 'new@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'different-password',
+        ]);
+
+        $response->assertSessionHasErrors('password');
+        $this->assertGuest();
+    }
+
+    #[Test]
+    public function 認証済みユーザーはダッシュボードにアクセスできる(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/dashboard');
+
+        $response->assertOk();
+    }
+
+    #[Test]
+    public function 未認証ユーザーはダッシュボードからログインにリダイレクトされる(): void
+    {
+        $response = $this->get('/dashboard');
+
+        $response->assertRedirect('/login');
+    }
+
+    #[Test]
     public function ログアウトでセッションが破棄され未認証状態になる(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/logout');

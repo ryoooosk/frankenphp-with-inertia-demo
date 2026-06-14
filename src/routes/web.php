@@ -9,9 +9,9 @@ Route::inertia('/', 'Index');
 
 Route::middleware('guest')->group(function () {
     Route::inertia('/login', 'Login')->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
     Route::inertia('/register', 'Auth/Register')->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:login');
 });
 
 Route::middleware('auth')->group(function () {

@@ -40,6 +40,13 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // OAuth2アクセストークンによるAPI認証用ガード
+        // routes/api.php の auth:api ミドルウェアがこの設定を参照し、
+        // Passportが発行したトークンでリクエストを認証する
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+        ],
     ],
 
     /*
