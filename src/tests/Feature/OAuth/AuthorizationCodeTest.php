@@ -77,7 +77,7 @@ class AuthorizationCodeTest extends TestCase
             'scope' => '',
         ]));
 
-        $response->assertStatus(401);
+        $response->assertUnauthorized();
     }
 
     #[Test]
@@ -96,7 +96,7 @@ class AuthorizationCodeTest extends TestCase
             'code_challenge_method' => 'S256',
         ]));
 
-        $response->assertStatus(401);
+        $response->assertUnauthorized();
     }
 
     #[Test]
@@ -114,6 +114,6 @@ class AuthorizationCodeTest extends TestCase
         ]));
 
         // PKCEなしの公開クライアントはエラーになる
-        $response->assertStatus(400);
+        $response->assertBadRequest();
     }
 }
