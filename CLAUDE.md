@@ -15,8 +15,9 @@ docker compose exec app composer test
 # PHPStan静的解析
 docker compose exec app composer phpstan
 
-# コードスタイル確認
-docker compose exec app vendor/bin/php-cs-fixer fix
+# コードスタイル（PHP: mago / JS・TS: biome）
+docker compose exec app vendor/bin/mago fmt   # フォーマット自動修正
+docker compose exec app vendor/bin/mago lint  # リント
 docker compose exec node npx biome check
 ```
 
