@@ -139,6 +139,87 @@ docker compose exec node npm run prepare
 - phpはmagoでフォーマット
   - magoはコンテナ内のものを使うため、コンテナを立ち上げないと動作しません
 
+## OAuth2 認証
+
+このプロジェクトは [Laravel Passport](https://laravel.com/docs/passport) による OAuth2 サーバーを備えており、別のクライアントアプリから認可・API アクセスができます。
+
+### 対応グラント
+
+**Authorization Code Grant + PKCE** に対応しています。クライアントの種別で必要なものが変わります。
+
+| クライアント種別 | secret | PKCE |
+| --- | --- | --- |
+| SPA / モバイル（公開クライアント） | なし | 必須 |
+| サーバーサイド Web（機密クライアント） | あり | 任意 |
+
+トークン有効期限（`src/app/Providers/AppServiceProvider.php`）:
+
+- アクセストークン: 15 日
+- リフレッシュトークン: 30 日
+- パーソナルアクセストークン: 6 ヶ月
+
+### 1. クライアント登録
+
+クライアントアプリごとに登録し、`client_id`（機密クライアントは `client_secret` も）を発行します。
+
+```bash
+# 公開クライアント（SPA/モバイル、secretなし・PKCE必須）
+docker compose exec app php artisan passport:client --public
+
+# 機密クライアント（サーバーサイドWeb、secretあり）
+docker compose exec app php artisan passport:client
+```
+
+対話で **クライアント名** と **リダイレクト URI**（クライアントのコールバック URL）を入力します。
+
+### 2. 認可フロー
+
+なお `code_challenge` / `code_verifier` はクライアント側で生成します（`code_verifier` を SHA-256 したものが `code_challenge`）。サーバーは検証のみ行います。
+
+**(1) 認可リクエスト** — ユーザーを認可画面へリダイレクト
+
+```text
+GET /oauth/authorize
+  ?client_id=<client_id>
+  &redirect_uri=<登録したURI>
+  &response_type=code
+  &scope=<スコープ>
+  &state=<CSRF対策のランダム値>
+  &code_challenge=<PKCEチャレンジ>        # 公開クライアントは必須
+  &code_challenge_method=S256
+```
+
+**(2) コード受け取り** — 許可後 `redirect_uri?code=...&state=...` にリダイレクト。`state` を検証。
+
+**(3) トークン交換**
+
+```text
+POST /oauth/token
+{
+  "grant_type": "authorization_code",
+  "client_id": "<client_id>",
+  "client_secret": "<機密クライアントのみ>",
+  "redirect_uri": "<登録したURI>",
+  "code": "<受け取ったcode>",
+  "code_verifier": "<PKCE検証子>"          // 公開クライアントは必須
+}
+```
+
+**(4) API 呼び出し** — `api` ガード（`config/auth.php`、レート制限 60 回/分）で認証
+
+```text
+GET /api/user
+Authorization: Bearer <access_token>
+```
+
+**(5) トークン更新** — 期限切れ時は `grant_type=refresh_token` で再発行。
+
+### 補足
+
+- **カスタムスコープは未定義**（デフォルトの `*` のみ）。権限を細分化する場合は `AppServiceProvider` に `Passport::tokensCan()` で定義を追加してください。
+- **公開 API は `/api/user` のみ**。クライアント用の API は `src/routes/api.php` に追加が必要です。
+- 別ドメインの SPA から呼ぶ場合は `src/config/cors.php` で `/oauth/token`・`/api/*` を許可してください。
+
 ## CI (GitHub Actions)
 
 プルリクエスト時に自動実行される品質チェック：
