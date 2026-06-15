@@ -33,14 +33,17 @@ class AuthorizationCodeTest extends TestCase
     {
         $client = $this->createPublicClient();
 
-        $response = $this->get('/oauth/authorize?' . http_build_query([
-            'client_id' => $client->getKey(),
-            'redirect_uri' => 'http://localhost:3000/callback',
-            'response_type' => 'code',
-            'scope' => '',
-            'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
-            'code_challenge_method' => 'S256',
-        ]));
+        $response = $this->get(
+            '/oauth/authorize?'
+                . http_build_query([
+                    'client_id' => $client->getKey(),
+                    'redirect_uri' => 'http://localhost:3000/callback',
+                    'response_type' => 'code',
+                    'scope' => '',
+                    'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
+                    'code_challenge_method' => 'S256',
+                ]),
+        );
 
         $response->assertRedirect('/login');
     }
@@ -52,14 +55,17 @@ class AuthorizationCodeTest extends TestCase
         $user = User::factory()->create();
         $client = $this->createPublicClient();
 
-        $response = $this->actingAs($user)->get('/oauth/authorize?' . http_build_query([
-            'client_id' => $client->getKey(),
-            'redirect_uri' => 'http://localhost:3000/callback',
-            'response_type' => 'code',
-            'scope' => '',
-            'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
-            'code_challenge_method' => 'S256',
-        ]));
+        $response = $this->actingAs($user)->get(
+            '/oauth/authorize?'
+                . http_build_query([
+                    'client_id' => $client->getKey(),
+                    'redirect_uri' => 'http://localhost:3000/callback',
+                    'response_type' => 'code',
+                    'scope' => '',
+                    'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
+                    'code_challenge_method' => 'S256',
+                ]),
+        );
 
         $response->assertOk();
     }
@@ -70,14 +76,17 @@ class AuthorizationCodeTest extends TestCase
         /** @var User $user */
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/oauth/authorize?' . http_build_query([
-            'client_id' => '00000000-0000-0000-0000-000000000000',
-            'redirect_uri' => 'http://localhost:3000/callback',
-            'response_type' => 'code',
-            'scope' => '',
-        ]));
+        $response = $this->actingAs($user)->get(
+            '/oauth/authorize?'
+                . http_build_query([
+                    'client_id' => '00000000-0000-0000-0000-000000000000',
+                    'redirect_uri' => 'http://localhost:3000/callback',
+                    'response_type' => 'code',
+                    'scope' => '',
+                ]),
+        );
 
-        $response->assertStatus(401);
+        $response->assertUnauthorized();
     }
 
     #[Test]
@@ -87,16 +96,19 @@ class AuthorizationCodeTest extends TestCase
         $user = User::factory()->create();
         $client = $this->createPublicClient();
 
-        $response = $this->actingAs($user)->get('/oauth/authorize?' . http_build_query([
-            'client_id' => $client->getKey(),
-            'redirect_uri' => 'http://evil.example.com/callback',
-            'response_type' => 'code',
-            'scope' => '',
-            'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
-            'code_challenge_method' => 'S256',
-        ]));
+        $response = $this->actingAs($user)->get(
+            '/oauth/authorize?'
+                . http_build_query([
+                    'client_id' => $client->getKey(),
+                    'redirect_uri' => 'http://evil.example.com/callback',
+                    'response_type' => 'code',
+                    'scope' => '',
+                    'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
+                    'code_challenge_method' => 'S256',
+                ]),
+        );
 
-        $response->assertStatus(401);
+        $response->assertUnauthorized();
     }
 
     #[Test]
@@ -106,14 +118,17 @@ class AuthorizationCodeTest extends TestCase
         $user = User::factory()->create();
         $client = $this->createPublicClient();
 
-        $response = $this->actingAs($user)->get('/oauth/authorize?' . http_build_query([
-            'client_id' => $client->getKey(),
-            'redirect_uri' => 'http://localhost:3000/callback',
-            'response_type' => 'code',
-            'scope' => '',
-        ]));
+        $response = $this->actingAs($user)->get(
+            '/oauth/authorize?'
+                . http_build_query([
+                    'client_id' => $client->getKey(),
+                    'redirect_uri' => 'http://localhost:3000/callback',
+                    'response_type' => 'code',
+                    'scope' => '',
+                ]),
+        );
 
         // PKCEなしの公開クライアントはエラーになる
-        $response->assertStatus(400);
+        $response->assertBadRequest();
     }
 }

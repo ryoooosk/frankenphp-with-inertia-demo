@@ -16,10 +16,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -27,14 +24,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // レートリミット: ログイン試行（5回/分）
-        RateLimiter::for('login', function (Request $request) {
+        RateLimiter::for('login', static function (Request $request) {
             $key = $request->string('email')->lower() . '|' . $request->ip();
 
             return Limit::perMinute(5)->by($key);
         });
 
         // レートリミット: APIリクエスト（60回/分）
-        RateLimiter::for('api', function (Request $request) {
+        RateLimiter::for('api', static function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
@@ -44,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
 
         // OAuth2認可同意画面をInertiaページでレンダリング
-        Passport::authorizationView(function (array $params) {
+        Passport::authorizationView(static function (array $params) {
             /** @var array<int, \Laravel\Passport\Scope> $scopes */
             $scopes = $params['scopes'];
 
@@ -52,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
                 'client' => [
                     'name' => $params['client']->name,
                 ],
-                'scopes' => array_map(fn (\Laravel\Passport\Scope $scope) => [
+                'scopes' => array_map(static fn(\Laravel\Passport\Scope $scope) => [
                     'id' => $scope->id,
                     'description' => $scope->description,
                 ], $scopes),
