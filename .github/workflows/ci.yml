@@ -1,14 +1,8 @@
-name: PHPUnit Tests
+name: CI
 
 on:
   pull_request:
     types: [opened, synchronize]
-    paths:
-      - "src/**/*.php"
-      - "src/phpunit.xml"
-      - "src/package-lock.json"
-      - "src/composer.lock"
-      - ".github/workflows/phpunit.yml"
   workflow_dispatch:
 
 concurrency:
@@ -16,6 +10,56 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number || 'manual' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v6
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # Laravelのパッケージ検出とオートローダー最適化のために必要
+      - name: Create cache directory
+        run: mkdir -p bootstrap/cache
+        working-directory: ./src
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+        working-directory: ./src
+
+      - name: "Restore result cache"
+        uses: actions/cache/restore@v6
+        with:
+          path: src/vendor/phpstan/phpstan/tmp # phpstan.neonのtmpDirと合わせる
+          key: "phpstan-result-cache-${{ env.PR_NUMBER }}"
+          # 一致するキャッシュの内最新のものを使用する
+          restore-keys: |
+            phpstan-result-cache-
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse --error-format=github
+        working-directory: ./src
+
+      - name: "Save result cache"
+        uses: actions/cache/save@v6
+        if: ${{ github.event_name == 'pull_request' && !cancelled() }}
+        with:
+          path: src/vendor/phpstan/phpstan/tmp # phpstan.neonのtmpDirと合わせる
+          key: "phpstan-result-cache-${{ env.PR_NUMBER }}"
+
   test:
     runs-on: ubuntu-latest
 
@@ -115,3 +159,11 @@ jobs:
           DB_DATABASE: testing
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+
+  dependabot-auto-merge:
+    needs: [phpstan, test]
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    uses: ryoooosk/reusable-workflows/.github/workflows/dependabot-auto-merge.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
