@@ -159,3 +159,11 @@ jobs:
           DB_DATABASE: testing
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+
+  dependabot-auto-merge:
+    needs: [phpstan, test]
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    uses: ryoooosk/reusable-workflows/.github/workflows/dependabot-auto-merge.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
